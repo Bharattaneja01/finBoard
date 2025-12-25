@@ -1,5 +1,8 @@
 "use client";
 
+import CardWidget from "@/components/widgets/CardWidget";
+import TableWidget from "@/components/widgets/TableWidget";
+import ChartWidget from "@/components/widgets/ChartWidget";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { useState } from "react";
 import AddWidgetModal from "./AddWidgetModal";
@@ -12,7 +15,6 @@ export default function Dashboard() {
 
     return (
         <div className="min-h-screen px-6 py-4">
-            {/* Header */}
             <header className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-lg bg-green-600 flex items-center justify-center">
@@ -37,13 +39,44 @@ export default function Dashboard() {
 
             </header>
 
-            {/* Dashboard Area */}
             {widgets.length === 0 ? (
                 <div className="border border-dashed border-gray-700 rounded-xl h-[70vh] flex items-center justify-center text-gray-500">
                     No widgets added yet. Click “Add Widget”.
                 </div>
             ) : (
-                <div>Widgets will appear here</div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {widgets.map((w) => {
+                        if (w.type === "card")
+                            return (
+                                <CardWidget
+                                    key={w.id}
+                                    name={w.name}
+                                    apiUrl={w.apiUrl}
+                                    interval={w.interval}
+                                />
+                            );
+
+                        if (w.type === "table")
+                            return (
+                                <TableWidget
+                                    key={w.id}
+                                    name={w.name}
+                                    apiUrl={w.apiUrl}
+                                    interval={w.interval}
+                                />
+                            );
+
+                        return (
+                            <ChartWidget
+                                key={w.id}
+                                name={w.name}
+                                apiUrl={w.apiUrl}
+                                interval={w.interval}
+                            />
+                        );
+                    })}
+                </div>
+
             )}
         </div>
     );
