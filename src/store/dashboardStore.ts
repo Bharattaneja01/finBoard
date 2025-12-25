@@ -3,6 +3,9 @@ import { create } from "zustand";
 export type Widget = {
   id: string;
   name: string;
+  apiUrl: string;
+  interval: number;
+  type: "card" | "table" | "chart";
 };
 
 type DashboardState = {
